@@ -35,4 +35,17 @@ vehicleHandler.getAllVehicle = (req, res, next) => {
   });
 };
 
+vehicleHandler.deleteVehicle = (req, res, next) => {
+  const vehicleID = req.params.vehicleID;
+
+  const deleteQuery = "delete from  tolltracker.vehicle where vehicleID=?;";
+
+  db.query(deleteQuery, [vehicleID], (err, result) => {
+    if (err) next(err);
+    else {
+      res.status(200).json({ msg: "vehicle is deleted" });
+    }
+  });
+};
+
 module.exports = vehicleHandler;

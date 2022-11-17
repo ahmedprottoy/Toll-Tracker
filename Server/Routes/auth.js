@@ -11,5 +11,10 @@ router.post("/logIn", authControl.logIn);
 //vehicle
 router.post("/addVehicle", authentication, vehicleControl.addVehicle);
 router.get("/getAllVehicle", authentication, vehicleControl.getAllVehicle);
+router.delete(
+  "/deleteVehicle/:vehicleID",
+  authentication,
+  vehicleControl.deleteVehicle
+);
 
 module.exports = router;

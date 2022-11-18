@@ -20,6 +20,6 @@ router.delete(
 
 //profile
 
-router.get("/showProfile/:userID", authentication, profileControl.showProfile);
+router.get("/showProfile", authentication, profileControl.showProfile);
 
 module.exports = router;

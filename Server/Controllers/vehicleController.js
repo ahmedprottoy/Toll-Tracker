@@ -6,14 +6,14 @@ const vehicleHandler = {};
 //create
 vehicleHandler.addVehicle = async (req, res, next) => {
   const userID = req.user.id;
-  let { vehicleType, registrationNo, vehicleModel } = req.body;
+  let { vehicleType, registrationNo, vehicleModel, description } = req.body;
 
   const insertQuery =
-    "insert into tolltracker.vehicle(userID,vehicleType,registrationNo,vehicleModel) values(?, ?, ?,?);";
+    "insert into tolltracker.vehicle(userID,vehicleType,registrationNo,vehicleModel, description) values(?, ?, ?,?,?);";
 
   await db.query(
     insertQuery,
-    [userID, vehicleType, registrationNo, vehicleModel],
+    [userID, vehicleType, registrationNo, vehicleModel, description],
     (err, result) => {
       if (err) next(err);
       else {
@@ -26,6 +26,7 @@ vehicleHandler.addVehicle = async (req, res, next) => {
 //get list of vehicle
 vehicleHandler.getAllVehicle = async (req, res, next) => {
   const userID = req.user.id;
+  console.log("hitting");
 
   const searchQuery = "select * from tolltracker.vehicle where userID= ? ;";
 

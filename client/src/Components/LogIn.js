@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import bridge from "../images/bridge1.jpg";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -29,14 +29,16 @@ function LogIn() {
         userName,
         password,
       });
+      console.log(response);
 
       localStorage.setItem(
         "accessToken",
         "Bearer " + response.data.accessToken
       );
+      localStorage.setItem("id", response.data.id);
 
       if (response.data.next) {
-        navigate("/SignUp");
+        navigate("/Home");
       }
     } catch (error) {
       console.log(error);
@@ -67,8 +69,12 @@ function LogIn() {
             <div class="relative">
               <input
                 type="text"
+                autoComplete="off"
                 name="userName"
-                class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                class="w-full outline-none rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm focus:border-indigo-300
+            focus:ring
+            focus:ring-indigo-200
+            focus:ring-opacity-50"
                 placeholder="Enter User Name"
                 // ref={register}
                 {...register("userName")}
@@ -103,7 +109,11 @@ function LogIn() {
               <input
                 type="password"
                 name="password"
-                class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                autoComplete="off"
+                class="w-full rounded-lg outline-none border-gray-200 p-4 pr-12 text-sm shadow-sm focus:border-indigo-300
+            focus:ring
+            focus:ring-indigo-200
+            focus:ring-opacity-50"
                 placeholder="Enter password"
                 // ref={register}
                 {...register("password")}

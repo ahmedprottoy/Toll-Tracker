@@ -6,6 +6,8 @@ require("dotenv").config();
 
 exports.signUp = async (req, res) => {
   const { companyName, userName, email, phone, password } = req.body;
+  let location = "null";
+  let website = "null";
   console.log(phone);
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -17,8 +19,8 @@ exports.signUp = async (req, res) => {
     );
 
     const insertQuery = mysql.format(
-      "INSERT INTO tolltracker.companyinfo (companyName, userName,email, phone,password) VALUES (?,?,?,?,?)",
-      [companyName, userName, email, phone, hashedPassword]
+      "INSERT INTO tolltracker.companyinfo (companyName, userName,email, phone,password,location,website) VALUES (?,?,?,?,?,?,?)",
+      [companyName, userName, email, phone, hashedPassword, location, website]
     );
 
     db.query(searchQuery, async (err, result) => {

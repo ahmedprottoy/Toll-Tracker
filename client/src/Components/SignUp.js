@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import bridge from "../images/bridge1.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";

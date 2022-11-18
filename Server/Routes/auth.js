@@ -3,6 +3,7 @@ const router = express.Router();
 const { authentication } = require("../middleware/authenticateToken");
 const authControl = require("../Controllers/authController");
 const vehicleControl = require("../Controllers/vehicleController");
+const profileControl = require("../Controllers/profileController");
 
 //signup,login
 router.post("/signUp", authControl.signUp);
@@ -16,5 +17,9 @@ router.delete(
   authentication,
   vehicleControl.deleteVehicle
 );
+
+//profile
+
+router.get("/showProfile/:userID", authentication, profileControl.showProfile);
 
 module.exports = router;

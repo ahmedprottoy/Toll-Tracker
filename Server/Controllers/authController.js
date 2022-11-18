@@ -5,8 +5,12 @@ const mysql = require("mysql");
 require("dotenv").config();
 
 exports.signUp = async (req, res) => {
-  const { companyname, userName, email, phone, password, confirmPassword } =
-    req.body;
+  const { companyname, userName, email, phone, password } = req.body;
+
+  if (!companyname || !userName || !email || !password) {
+    return res.json({ error: "Please Provide inputs for all fields" });
+  }
+
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
@@ -26,35 +30,13 @@ exports.signUp = async (req, res) => {
       } else if (result.length !== 0) {
         console.log("---User Already Exists--");
         res.json({ msg: "User Already Exists With This Name" });
-      }
-      // else if (password !== confirmPassword) {
-      //   console.log("passwords didn't match");
-      //   res.json({ msg: "Passwords didn't match'" });
-      // }
-      else {
+      } else {
         db.query(insertQuery, async (err, result) => {
           if (err) throw err;
           else {
             console.log("---New User Created---");
             res.json({ msg: "A New User Has Been Created" });
           }
-
-          //   const searchQuery = `select userID from socialmedia.userinfo where userName = ?;`;
-          //   db.query(searchQuery, [userName], (err2, result) => {
-          //     if (err2) {
-          //       throw err2;
-          //     } else {
-          //       const userId = result[0].userID;
-          //       const insertQuery2 = `insert into socialmedia.userbios(userId, profileImgId,coverImgId) values(?, "null", "null");`;
-          //       db.query(insertQuery2, [userId], (err3, result) => {
-          //         if (err3) throw err3;
-          //         else {
-          //           console.log("---New User Created---");
-          //           res.json({ msg: "A New User Has Been Created" });
-          //         }
-          //       });
-          //     }
-          //   });
         });
       }
     });
@@ -66,7 +48,11 @@ exports.signUp = async (req, res) => {
 
 exports.logIn = async (req, res) => {
   const { userName, password } = req.body;
-  console.log("hitting");
+
+  if (!userName || !password) {
+    return res.json({ error: "Please Provide inputs for all fields" });
+  }
+
   try {
     const searchQuery = mysql.format(
       "SELECT * FROM tolltracker.companyinfo WHERE userName=?",

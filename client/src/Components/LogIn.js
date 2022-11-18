@@ -3,8 +3,11 @@ import bridge from "../images/bridge1.jpg";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 function LogIn() {
+  const navigate = useNavigate();
   const schema = yup.object().shape({
     userName: yup.string().required("Enter your User Name !"),
     password: yup.string().min(6).max(15).required(),
@@ -18,8 +21,26 @@ function LogIn() {
     resolver: yupResolver(schema),
   });
 
-  const submitForm = (data) => {
+  const submitForm = async (data) => {
     const { userName, password } = data;
+
+    try {
+      const response = await axios.post("http://localhost:3005/auth/logIn", {
+        userName,
+        password,
+      });
+
+      localStorage.setItem(
+        "accessToken",
+        "Bearer " + response.data.accessToken
+      );
+
+      if (response.data.next) {
+        navigate("/SignUp");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -117,9 +138,9 @@ function LogIn() {
           <div class="flex items-center justify-between">
             <p class="text-sm text-gray-500">
               No account?
-              <a href="#" class="font-semibold">
+              <Link to="/SignUp" class="font-semibold">
                 <> Sign up </>
-              </a>
+              </Link>
             </p>
 
             <button

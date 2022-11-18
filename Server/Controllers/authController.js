@@ -5,11 +5,8 @@ const mysql = require("mysql");
 require("dotenv").config();
 
 exports.signUp = async (req, res) => {
-  const { companyname, userName, email, phone, password } = req.body;
-
-  if (!companyname || !userName || !email || !password) {
-    return res.json({ error: "Please Provide inputs for all fields" });
-  }
+  const { companyName, userName, email, phone, password } = req.body;
+  console.log(phone);
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -20,8 +17,8 @@ exports.signUp = async (req, res) => {
     );
 
     const insertQuery = mysql.format(
-      "INSERT INTO tolltracker.companyinfo (companyname, userName,email, phone,password) VALUES (?,?,?,?,?)",
-      [companyname, userName, email, phone, hashedPassword]
+      "INSERT INTO tolltracker.companyinfo (companyName, userName,email, phone,password) VALUES (?,?,?,?,?)",
+      [companyName, userName, email, phone, hashedPassword]
     );
 
     db.query(searchQuery, async (err, result) => {
@@ -35,7 +32,7 @@ exports.signUp = async (req, res) => {
           if (err) throw err;
           else {
             console.log("---New User Created---");
-            res.json({ msg: "A New User Has Been Created" });
+            res.json({ msg: "A New User Has Been Created", next: true });
           }
         });
       }
@@ -78,7 +75,7 @@ exports.logIn = async (req, res) => {
           const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {});
 
           req.session.user = result;
-          // console.log(req.session.user);
+          console.log(req.session.user);
 
           res.status(200).json({
             accessToken: token,

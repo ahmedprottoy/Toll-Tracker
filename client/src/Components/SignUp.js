@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import axios from "axios";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ function SignUp() {
     companyName: yup.string().required(),
     userName: yup.string().required("Enter your User Name !"),
     email: yup.string().email().required(),
-    contact: yup.string().required(),
+    phone: yup.string().required(),
     password: yup.string().min(6).max(15).required(),
     confirmPassword: yup
       .string()
@@ -28,9 +29,25 @@ function SignUp() {
     resolver: yupResolver(schema),
   });
 
-  const submitForm = (data) => {
-    const { userName, password } = data;
-    console.log(data);
+  const submitForm = async (data) => {
+    const { companyName, userName, email, phone, password, confirmPassword } =
+      data;
+
+    try {
+      const response = await axios.post("http://localhost:3005/auth/signUp", {
+        companyName,
+        userName,
+        email,
+        phone,
+        password,
+        confirmPassword,
+      });
+      if (response.data.next) {
+        navigate("/LogIn");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -178,7 +195,7 @@ function SignUp() {
 
               <div class="col-span-6">
                 <label
-                  for="contact"
+                  for="phone"
                   class="block text-sm font-medium text-gray-700"
                 >
                   Contact No.
@@ -186,16 +203,16 @@ function SignUp() {
 
                 <input
                   type="text"
-                  id="contact"
-                  name="contact"
-                  //   value={contact}
-                  {...register("contact")}
+                  id="phone"
+                  name="phone"
+                  //   value={phone}
+                  {...register("phone")}
                   class="mt-1 w-full h-10 p-5 outline-none  rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm focus:border-indigo-300
             focus:ring
             focus:ring-indigo-200
             focus:ring-opacity-50"
                 />
-                <p className=" mt-3 text-red-500">{errors.contact?.message}</p>
+                <p className=" mt-3 text-red-500">{errors.phone?.message}</p>
               </div>
 
               <div class="col-span-6 sm:col-span-3">

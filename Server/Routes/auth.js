@@ -4,6 +4,7 @@ const { authentication } = require("../middleware/authenticateToken");
 const authControl = require("../Controllers/authController");
 const vehicleControl = require("../Controllers/vehicleController");
 const profileControl = require("../Controllers/profileController");
+const bridgeControl = require("../Controllers/bridgeController");
 
 //signup,login
 router.post("/signUp", authControl.signUp);
@@ -21,5 +22,9 @@ router.delete(
 //profile
 
 router.get("/showProfile", authentication, profileControl.showProfile);
+
+//bridge
+router.get("/bridgeList", bridgeControl.bridgeList);
+router.post("/bridgeToll", bridgeControl.bridgeToll);
 
 module.exports = router;

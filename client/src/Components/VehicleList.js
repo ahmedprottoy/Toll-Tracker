@@ -63,7 +63,7 @@ function VehicleList() {
           {/* src={`${list.vehicleModel.toLowerCase()}`} */}
           <p className="mt-3 text-xl ">
             <span className="font-bold text-2xl">Type : </span>
-            {list.vehicleType}
+            {list.vehicleType.toUpperCase()}
           </p>
           <p className="mt-3 text-xl ">
             <span className="font-bold text-2xl">Model : </span>

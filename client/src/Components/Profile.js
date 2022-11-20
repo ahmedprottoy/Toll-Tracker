@@ -7,7 +7,7 @@ function Profile() {
   let [open, setOpen] = useState(true);
   return (
     <div className="flex justify-center ">
-      <div className="w-11/12  flex flex-row">
+      <div className="w-11/12 h-1/2 flex flex-row">
         <div className="w-5/12 h-2/3 p-5 shadow-lg rounded-lg mt-5">
           <ProfileInfo />
         </div>
